@@ -1,0 +1,19 @@
+ext {
+    app = [
+            apiUrl: '"https://api.flickr.com/"',
+            baseId: "com.github.rixspi.simpleflickrgallery",
+            versionName: "dev"
+    ]
+
+    sdk = [
+            buildTools: "27.0.3",
+            min: 19,
+            target: 27,
+            compile: 27
+    ]
+
+    lang = [
+            source: JavaVersion.VERSION_1_8,
+            target: JavaVersion.VERSION_1_8
+    ]
+}

@@ -4,30 +4,82 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'kotlin-kapt'
+
 android {
-    compileSdkVersion 27
+    compileSdkVersion sdk.compile
+    buildToolsVersion sdk.buildTools
+
     defaultConfig {
-        applicationId "com.github.rixspi.simpleflickrgallery"
-        minSdkVersion 19
-        targetSdkVersion 27
+        applicationId app.baseId
+        minSdkVersion sdk.min
+        targetSdkVersion sdk.target
         versionCode 1
-        versionName "1.0"
+        versionName "1.0" + app.versionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
+        debug {
+            buildConfigField "String", 'API_URL', app.apiUrl
+        }
         release {
+            buildConfigField "String", 'API_URL', app.apiUrl
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    compileOptions {
+        targetCompatibility lang.target
+        sourceCompatibility lang.source
+    }
+
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    implementation 'com.android.support:appcompat-v7:27.1.1'
-    implementation 'com.android.support:design:27.1.1'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    implementation kotlinBase.sdk
+
+    implementation support.appCompat
+    implementation support.appCompatV4
+    implementation support.appCompatV13
+    implementation support.design
+    implementation support.recyclerView
+    implementation support.cardView
+    kapt support.dataBinding
+
+    implementation views.constraintLayout
+
+    implementation glide.glide
+    kapt glide.glideCompiler
+    implementation glide.glideTransformations
+
+    implementation rx.java
+    implementation rx.kotlin
+    implementation rx.android
+    implementation rx.permissions
+    implementation rx.binding
+
+    implementation squareup.retrofit
+    implementation squareup.retrofitGson
+    implementation squareup.loggingInterceptor
+    implementation squareup.retrofitRxAdapter
+
+    implementation dagger.di
+    implementation dagger.diSupport
+    kapt dagger.compiler
+    kapt dagger.processor
+
+    kaptTest dagger.compiler
+
+    testImplementation rx.java
+    testImplementation rx.android
+    testImplementation squareup.leakCanaryTest
+    testImplementation test.junit
+    testImplementation test.mockitoCore
+    testImplementation dagger.di
+
+    androidTestImplementation test.testRunner
+    androidTestImplementation test.espressoCore
 }
