@@ -29,6 +29,10 @@ android {
         }
     }
 
+    dataBinding {
+        enabled = true
+    }
+
     compileOptions {
         targetCompatibility lang.target
         sourceCompatibility lang.source
@@ -47,9 +51,11 @@ dependencies {
     implementation support.design
     implementation support.recyclerView
     implementation support.cardView
+    implementation support.extensions
     kapt support.dataBinding
 
     implementation views.constraintLayout
+    implementation views.lastAdapter
 
     implementation glide.glide
     kapt glide.glideCompiler
