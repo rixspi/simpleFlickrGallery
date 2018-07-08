@@ -16,10 +16,6 @@ class SimpleFlickrGaleryApp : Application() {
                 .build()
     }
 
-    override fun onCreate() {
-        super.onCreate()
-    }
-
     companion object {
         fun get(context: Context) = context.applicationContext as SimpleFlickrGaleryApp
     }

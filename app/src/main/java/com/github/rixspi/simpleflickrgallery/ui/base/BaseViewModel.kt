@@ -1,12 +1,8 @@
 package com.github.rixspi.simpleflickrgallery.ui.base
 
-import android.arch.lifecycle.LifecycleOwner
-import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.ViewModel
-import android.arch.lifecycle.ViewModelProvider
-import android.support.v4.app.FragmentActivity
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 
 
-open class BaseViewModel : ViewModel() {
-
-}
+open class BaseViewModel : ViewModel() {}
