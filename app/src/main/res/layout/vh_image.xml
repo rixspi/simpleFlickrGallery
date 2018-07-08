@@ -12,19 +12,40 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_small">
 
         <TextView
             android:id="@+id/tvTitle"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@{item.title}" />
+            android:background="@drawable/bg_text_image"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:lines="2"
+            android:padding="@dimen/padding_default"
+            android:text="@{item.title}"
+            android:textColor="@color/colorAccent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/vSpace"
+            app:visibleIfNotEmpty="@{item.title}" />
 
         <ImageView
+            android:id="@+id/ivImage"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:contentDescription="@{item.title}"
-            app:externalImage="@{item.media.m}" />
+            app:layout_constraintDimensionRatio="2:1"
+            app:thumbnailImage="@{item.media.m}" />
+
+        <Space
+            android:id="@+id/vSpace"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/padding_big"
+            app:layout_constraintBottom_toBottomOf="@id/ivImage" />
+
 
     </android.support.constraint.ConstraintLayout>
 </layout>
