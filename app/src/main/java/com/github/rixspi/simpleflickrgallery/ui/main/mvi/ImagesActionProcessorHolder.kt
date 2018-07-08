@@ -1,6 +1,6 @@
 package com.github.rixspi.simpleflickrgallery.ui.main.mvi
 
-import com.github.rixspi.simpleflickrgallery.repository.images.FakeImagesRepo
+import com.github.rixspi.simpleflickrgallery.repository.images.ImagesRepoInterface
 import io.reactivex.Observable
 import io.reactivex.ObservableTransformer
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 
 class ImagesActionProcessorHolder @Inject constructor(
-        private val imagesRepo: FakeImagesRepo
+        private val imagesRepo: ImagesRepoInterface
 ) {
     internal var actionProcessor =
             ObservableTransformer<ImagesAction, ImagesResult> { actions ->
