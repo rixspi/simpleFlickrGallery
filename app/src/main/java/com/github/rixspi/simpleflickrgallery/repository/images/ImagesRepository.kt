@@ -37,6 +37,8 @@ class ImagesRepository(private val flickrApi: FlickrApi) : ImagesRepoInterface {
 
     override fun refreshImages() {
         cacheIsDirty = true
+        //Clearing because of refreshing nature of flickr uploaded feed
+        cachedTasks?.clear()
     }
 
 
