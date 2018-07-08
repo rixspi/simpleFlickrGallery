@@ -4,17 +4,17 @@ import com.google.gson.annotations.SerializedName
 
 
 data class Image(
-        val description: String?,
-        val title: String?,
-        val link: String?,
-        val media: Media?,
+        val description: String? = null,
+        val title: String? = null,
+        val link: String? = null,
+        val media: Media? = null,
         @SerializedName("date_taken")
-        val dateTaken: String?,
-        val author: String?,
+        val dateTaken: String? = null,
+        val author: String? = null,
         @SerializedName("author_id")
-        val authorId: String?,
-        val tags: String?
-){
+        val authorId: String? = null,
+        val tags: String? = null
+) {
     fun id(): String = authorId + media?.m
 }
 

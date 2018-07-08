@@ -4,9 +4,9 @@ import com.github.rixspi.simpleflickrgallery.repository.images.model.Image
 
 
 data class ImagesApiResponse(
-        val title: String?,
-        val link: String?,
-        val description: String?,
-        val modified: String?,
-        val items: List<Image>
+        val title: String? = null,
+        val link: String? = null,
+        val description: String? = null,
+        val modified: String? = null,
+        val items: List<Image>? = null
 )
