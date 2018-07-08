@@ -4,7 +4,7 @@ ext {
 
     views = [
             constraintLayout: "com.android.support.constraint:constraint-layout:${constraintLayoutVersion}",
-            lastAdapter: "com.github.nitrico.lastadapter:lastadapter:${lastAdapterVersion}"
+            lastAdapter     : "com.github.nitrico.lastadapter:lastadapter:${lastAdapterVersion}"
     ]
 
 
@@ -62,19 +62,20 @@ ext {
     rxBindingVersion = '2.0.0'
 
     rx = [
-            java           : "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
-            kotlin         : "io.reactivex.rxjava2:rxkotlin:${rxKotlinVersion}",
-            android        : "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}",
-            binding        : "com.jakewharton.rxbinding2:rxbinding-kotlin:${rxBindingVersion}",
-            permissions    : "com.tbruyelle.rxpermissions2:rxpermissions:${rxPermissionsVersion}"
+            java       : "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
+            kotlin     : "io.reactivex.rxjava2:rxkotlin:${rxKotlinVersion}",
+            android    : "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}",
+            binding    : "com.jakewharton.rxbinding2:rxbinding-kotlin:${rxBindingVersion}",
+            bindingv4  : "com.jakewharton.rxbinding2:rxbinding-support-v4-kotlin:${rxBindingVersion}",
+            permissions: "com.tbruyelle.rxpermissions2:rxpermissions:${rxPermissionsVersion}"
     ]
 
     daggerVersion = '2.16'
     dagger = [
-            compiler:                    "com.google.dagger:dagger-compiler:${daggerVersion}",
-            processor:                   "com.google.dagger:dagger-android-processor:${daggerVersion}",
-            di      :                    "com.google.dagger:dagger:${daggerVersion}",
-            diSupport :                  "com.google.dagger:dagger-android-support:${daggerVersion}",
+            compiler : "com.google.dagger:dagger-compiler:${daggerVersion}",
+            processor: "com.google.dagger:dagger-android-processor:${daggerVersion}",
+            di       : "com.google.dagger:dagger:${daggerVersion}",
+            diSupport: "com.google.dagger:dagger-android-support:${daggerVersion}",
     ]
 
     mockitoCore = '2.12.0'

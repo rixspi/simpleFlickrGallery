@@ -66,6 +66,7 @@ dependencies {
     implementation rx.android
     implementation rx.permissions
     implementation rx.binding
+    implementation rx.bindingv4
 
     implementation squareup.retrofit
     implementation squareup.retrofitGson
