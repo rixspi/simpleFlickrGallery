@@ -6,7 +6,15 @@ import io.reactivex.Single
 
 
 interface ImagesRepoInterface {
+
+    fun getImages(update: Boolean): Single<List<Image>> {
+        if(update) refreshImages()
+        return getImages()
+    }
+
     fun getImages(): Single<List<Image>>
+
+    fun refreshImages()
 
     fun addImageToFav(): Single<Image>
 }

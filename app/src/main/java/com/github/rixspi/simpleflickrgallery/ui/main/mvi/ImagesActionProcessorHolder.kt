@@ -38,7 +38,8 @@ class ImagesActionProcessorHolder @Inject constructor(
     private val loadTasksProcessor =
             ObservableTransformer<ImagesAction.LoadImagesAction, ImagesResult.LoadImagesResult> { actions ->
                 actions.flatMap {
-                    imagesRepo.getImages()
+                    action ->
+                    imagesRepo.getImages(action.update)
                             // Transform the Single to an Observable to allow emission of multiple
                             // events down the stream (e.g. the InFlight event)
                             .toObservable()

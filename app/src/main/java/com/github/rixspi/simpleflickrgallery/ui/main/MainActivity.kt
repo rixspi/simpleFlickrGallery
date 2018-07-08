@@ -120,7 +120,7 @@ class MainActivity : BaseActivity(), MviView<ImagesIntent, ImagesViewState> {
 
     private fun refreshIntent(): Observable<ImagesIntent.RefreshIntent> {
         return RxSwipeRefreshLayout.refreshes(b.refreshLayout)
-                .map { ImagesIntent.RefreshIntent(false) }
+                .map { ImagesIntent.RefreshIntent(true) }
                 .mergeWith(refreshIntentPublisher)
     }
 
