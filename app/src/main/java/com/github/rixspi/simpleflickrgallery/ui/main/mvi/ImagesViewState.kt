@@ -1,6 +1,6 @@
 package com.github.rixspi.simpleflickrgallery.ui.main.mvi
 
-import com.github.rixspi.simpleflickrgallery.data.Image
+import com.github.rixspi.simpleflickrgallery.repository.images.model.Image
 import com.github.rixspi.simpleflickrgallery.mvibase.MviViewState
 
 

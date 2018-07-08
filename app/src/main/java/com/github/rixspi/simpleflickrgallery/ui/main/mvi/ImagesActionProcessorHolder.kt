@@ -1,6 +1,6 @@
 package com.github.rixspi.simpleflickrgallery.ui.main.mvi
 
-import com.github.rixspi.simpleflickrgallery.data.repo.FakeImagesRepo
+import com.github.rixspi.simpleflickrgallery.repository.images.FakeImagesRepo
 import io.reactivex.Observable
 import io.reactivex.ObservableTransformer
 import io.reactivex.android.schedulers.AndroidSchedulers
