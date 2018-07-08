@@ -1,6 +1,7 @@
 package com.github.rixspi.simpleflickrgallery.di.base
 
 import com.github.rixspi.simpleflickrgallery.BuildConfig
+import com.github.rixspi.simpleflickrgallery.repository.net.FlickrApi
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -74,7 +75,7 @@ class NetModule {
                     .client(client)
                     .build()
 
-//    @Provides
-//    @Singleton
-//    fun provideApi(retrofit: Retrofit): KitcheApi = retrofit.create(KitcheApi::class.java)
+    @Provides
+    @Singleton
+    fun provideApi(retrofit: Retrofit): FlickrApi = retrofit.create(FlickrApi::class.java)
 }
