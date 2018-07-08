@@ -1,6 +1,9 @@
 package com.github.rixspi.simpleflickrgallery.ui.main
 
+import android.databinding.ObservableArrayList
+import android.databinding.ObservableBoolean
 import com.github.rixspi.simpleflickrgallery.mvibase.MviViewModel
+import com.github.rixspi.simpleflickrgallery.repository.images.model.Image
 import com.github.rixspi.simpleflickrgallery.ui.base.BaseViewModel
 import com.github.rixspi.simpleflickrgallery.ui.main.mvi.*
 import com.github.rixspi.simpleflickrgallery.utils.notOfType
@@ -11,12 +14,13 @@ import io.reactivex.subjects.PublishSubject
 import javax.inject.Inject
 
 
-class MainActivityViewModel @Inject constructor(
-        private val actionProcessor: ImagesActionProcessorHolder
-) :
+class MainActivityViewModel @Inject constructor(private val actionProcessor: ImagesActionProcessorHolder) :
         BaseViewModel(),
         MviViewModel<ImagesIntent, ImagesViewState> {
 
+    val loading = ObservableBoolean()
+
+    val items = ObservableArrayList<Image>()
 
     /**
      * Proxy subject used to keep the stream alive even after the UI gets recycled.
@@ -77,6 +81,15 @@ class MainActivityViewModel @Inject constructor(
         return when (intent) {
             is ImagesIntent.InitialIntent -> ImagesAction.LoadImagesAction(true)
             is ImagesIntent.RefreshIntent -> ImagesAction.LoadImagesAction(intent.update)
+        }
+    }
+
+    fun handleAndroidDataBinding(state: ImagesViewState) {
+        loading.set(state.isLoading)
+
+        if (items.toList() != state.images) {
+            items.clear()
+            items.addAll(state.images)
         }
     }
 
