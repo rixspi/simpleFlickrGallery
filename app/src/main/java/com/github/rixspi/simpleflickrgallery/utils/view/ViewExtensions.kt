@@ -1,14 +1,10 @@
 package com.github.rixspi.simpleflickrgallery.utils.view
 
 import android.support.annotation.DrawableRes
-import android.support.annotation.LayoutRes
-import android.support.v7.util.DiffUtil
-import android.support.v7.widget.RecyclerView
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.target.Target
 import com.github.rixspi.simpleflickrgallery.di.base.GlideApp
 
@@ -16,9 +12,6 @@ import com.github.rixspi.simpleflickrgallery.di.base.GlideApp
 fun View.visible(visible: Boolean) {
     this.visibility = if (visible) View.VISIBLE else View.GONE
 }
-
-fun ViewGroup.inflateLayout(@LayoutRes layoutId: Int, attachToRoot: Boolean = false) =
-        LayoutInflater.from(this.context).inflate(layoutId, this, attachToRoot)!!
 
 fun ImageView.loadImage(url: String?,
                         @DrawableRes placeholderResId: Int? = null,
@@ -42,24 +35,7 @@ fun ImageView.loadImage(url: String?,
                     transforms(additionalTransformations)
                 }
             }
+            .transition(DrawableTransitionOptions.withCrossFade())
             .into(this)
 
 }
-
-fun <T, R : RecyclerView.ViewHolder>
-        RecyclerView.Adapter<R>.applyObjectsChangesToList(old: List<T>,
-                                                          new: List<T>,
-                                                          compare: (T, T) -> Boolean) =
-        DiffUtil.calculateDiff(
-                object : DiffUtil.Callback() {
-
-                    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int) =
-                            compare(old[oldItemPosition], new[newItemPosition])
-
-                    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int) =
-                            old[oldItemPosition] == new[newItemPosition]
-
-                    override fun getOldListSize() = old.size
-                    override fun getNewListSize() = new.size
-                }
-        ).dispatchUpdatesTo(this)
