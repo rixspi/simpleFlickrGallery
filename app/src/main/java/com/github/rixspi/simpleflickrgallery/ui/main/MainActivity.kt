@@ -23,9 +23,10 @@ class MainActivity : BaseActivity() {
     }
 
     private fun loadImagesFragment() {
-        supportFragmentManager.beginTransaction()
-                .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
-                .replace(R.id.content, ImagesListFragment())
-                .commit()
+        if (supportFragmentManager.findFragmentById(R.id.content) == null)
+            supportFragmentManager.beginTransaction()
+                    .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
+                    .replace(R.id.content, ImagesListFragment())
+                    .commit()
     }
 }
