@@ -106,7 +106,7 @@ class MainActivity : BaseActivity(), MviView<ImagesIntent, ImagesViewState> {
     }
 
     override fun render(state: ImagesViewState) {
-
+        //render android related views e.g: toasts, snackbar, everything we cannot do from viewmodel
     }
 
 

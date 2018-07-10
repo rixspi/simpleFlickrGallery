@@ -64,22 +64,12 @@ class ImagesActionProcessorHolder @Inject constructor(
             ObservableTransformer<ImagesAction.AddToFavAction, ImagesResult.AddImageToFavResult> { actions ->
                 actions.flatMap {
                     imagesRepo.addImageToFav()
-                            // Transform the Single to an Observable to allow emission of multiple
-                            // events down the stream (e.g. the InFlight event)
                             .toObservable()
-                            // Wrap returned data into an immutable object
                             .map { ImagesResult.AddImageToFavResult.Success(it) }
                             .cast(ImagesResult.AddImageToFavResult::class.java)
-                            // Wrap any error into an immutable object and pass it down the stream
-                            // without crashing.
-                            // Because errors are data and hence, should just be part of the stream.
                             .onErrorReturn(ImagesResult.AddImageToFavResult::Failure)
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
-                            // Emit an InFlight event to notify the subscribers (e.g. the UI) we are
-                            // doing work and waiting on a response.
-                            // We emit it after observing on the UI thread to allow the event to be emitted
-                            // on the current frame and avoid jank.
                             .startWith(ImagesResult.AddImageToFavResult.InProgress)
                 }
             }
