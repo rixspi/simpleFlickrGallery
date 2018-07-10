@@ -4,7 +4,7 @@ import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.v7.widget.StaggeredGridLayoutManager
+import android.support.v7.widget.GridLayoutManager
 import com.github.nitrico.lastadapter.BR
 import com.github.nitrico.lastadapter.LastAdapter
 import com.github.rixspi.simpleflickrgallery.R
@@ -72,7 +72,7 @@ class MainActivity : BaseActivity(), MviView<ImagesIntent, ImagesViewState> {
 
     private fun setupRecyclerView() {
         with(b.rvImages) {
-            layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+            layoutManager = GridLayoutManager(this@MainActivity, 2)
         }
         adapter
     }
