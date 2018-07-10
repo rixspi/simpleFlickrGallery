@@ -16,6 +16,9 @@ import com.github.rixspi.simpleflickrgallery.di.images.list.ImagesListModule
 import com.github.rixspi.simpleflickrgallery.mvibase.MviView
 import com.github.rixspi.simpleflickrgallery.repository.images.model.Image
 import com.github.rixspi.simpleflickrgallery.ui.base.BaseFragment
+import com.github.rixspi.simpleflickrgallery.ui.images.details.ImageDetailsFragment
+import com.github.rixspi.simpleflickrgallery.ui.images.list.adapter.ImageClickListener
+import com.github.rixspi.simpleflickrgallery.ui.images.list.adapter.ImageItemType
 import com.github.rixspi.simpleflickrgallery.ui.images.list.mvi.ImagesIntent
 import com.github.rixspi.simpleflickrgallery.ui.images.list.mvi.ImagesViewState
 import com.jakewharton.rxbinding2.support.v4.widget.RxSwipeRefreshLayout
@@ -37,7 +40,18 @@ class ImagesListFragment : BaseFragment(), MviView<ImagesIntent, ImagesViewState
 
     private val adapter: LastAdapter by lazy {
         LastAdapter(vm.items, BR.item)
-                .map<Image>(R.layout.vh_image)
+                .map(Image::class.java, ImageItemType(object : ImageClickListener {
+                    override fun imageClicked(item: Image) {
+                        fragmentManager?.beginTransaction()
+                                ?.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
+                                ?.addToBackStack("details")
+                                ?.add(R.id.content, ImageDetailsFragment())
+                                ?.commit()
+                    }
+
+                    override fun favClicked(item: Image) {}
+
+                }))
                 .into(b.rvImages)
     }
 
