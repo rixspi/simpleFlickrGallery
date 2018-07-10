@@ -1,11 +1,11 @@
-package com.github.rixspi.simpleflickrgallery.ui.main
+package com.github.rixspi.simpleflickrgallery.ui.images.list
 
 import android.databinding.ObservableArrayList
 import android.databinding.ObservableBoolean
 import com.github.rixspi.simpleflickrgallery.mvibase.MviViewModel
 import com.github.rixspi.simpleflickrgallery.repository.images.model.Image
 import com.github.rixspi.simpleflickrgallery.ui.base.BaseViewModel
-import com.github.rixspi.simpleflickrgallery.ui.main.mvi.*
+import com.github.rixspi.simpleflickrgallery.ui.images.list.mvi.*
 import com.github.rixspi.simpleflickrgallery.utils.notOfType
 import io.reactivex.Observable
 import io.reactivex.ObservableTransformer
@@ -14,7 +14,7 @@ import io.reactivex.subjects.PublishSubject
 import javax.inject.Inject
 
 
-class MainActivityViewModel @Inject constructor(private val actionProcessor: ImagesActionProcessorHolder) :
+class ImagesListViewModel @Inject constructor(private val actionProcessor: ImagesActionProcessorHolder) :
         BaseViewModel(),
         MviViewModel<ImagesIntent, ImagesViewState> {
 

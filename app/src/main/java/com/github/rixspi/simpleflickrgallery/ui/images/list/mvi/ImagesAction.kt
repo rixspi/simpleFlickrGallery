@@ -1,4 +1,4 @@
-package com.github.rixspi.simpleflickrgallery.ui.main.mvi
+package com.github.rixspi.simpleflickrgallery.ui.images.list.mvi
 
 import com.github.rixspi.simpleflickrgallery.repository.images.model.Image
 import com.github.rixspi.simpleflickrgallery.mvibase.MviAction

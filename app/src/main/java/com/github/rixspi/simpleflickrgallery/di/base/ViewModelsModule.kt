@@ -2,7 +2,7 @@ package com.github.rixspi.simpleflickrgallery.di.base
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
-import com.github.rixspi.simpleflickrgallery.ui.main.MainActivityViewModel
+import com.github.rixspi.simpleflickrgallery.ui.images.list.ImagesListViewModel
 import dagger.Binds
 import dagger.MapKey
 import dagger.Module
@@ -34,8 +34,8 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(MainActivityViewModel::class)
-    internal abstract fun mainActivityViewModel(viewModel: MainActivityViewModel): ViewModel
+    @ViewModelKey(ImagesListViewModel::class)
+    internal abstract fun imagesListViewModel(viewModel: ImagesListViewModel): ViewModel
 
     //Add more ViewModels here
 }

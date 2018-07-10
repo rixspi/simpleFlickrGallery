@@ -1,6 +1,7 @@
 package com.github.rixspi.simpleflickrgallery.ui.base
 
-import android.app.Fragment
+
+import android.support.v4.app.Fragment
 import com.github.rixspi.simpleflickrgallery.SimpleFlickrGaleryApp
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
@@ -14,6 +15,6 @@ open class BaseFragment : Fragment(), CompositeDisposablesHandler {
     override fun clearDisposables() = disposables.clear()
 
     val appComponent by lazy {
-        SimpleFlickrGaleryApp.get(activity).appComponent
+        SimpleFlickrGaleryApp.get(activity!!).appComponent
     }
 }
