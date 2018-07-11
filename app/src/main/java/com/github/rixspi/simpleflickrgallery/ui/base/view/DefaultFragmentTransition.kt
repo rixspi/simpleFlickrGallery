@@ -12,6 +12,6 @@ class DefaultFragmentTransition: TransitionSet() {
         ordering = ORDERING_TOGETHER
         addTransition(ChangeBounds())
                 .addTransition(ChangeTransform())
-                //.addTransition(ChangeImageTransform())
+                .addTransition(ChangeImageTransform())
     }
 }
