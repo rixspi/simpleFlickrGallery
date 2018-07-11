@@ -7,7 +7,7 @@ import android.os.Build
 import android.os.Bundle
 import android.support.transition.Explode
 import android.support.transition.Fade
-import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.StaggeredGridLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -49,8 +49,8 @@ class ImagesListFragment : BaseFragment(), MviView<ImagesIntent, ImagesViewState
             details.sharedElementEnterTransition = DefaultFragmentTransition()
             //details.enterTransition = Fade()
             exitTransition = Explode()
-            //details.exitTransition = Explode()
-            details.sharedElementReturnTransition = DefaultFragmentTransition()
+            details.exitTransition = Fade()
+           // details.sharedElementReturnTransition = DefaultFragmentTransition()
             transName = view?.transitionName
         }
 
@@ -118,8 +118,9 @@ class ImagesListFragment : BaseFragment(), MviView<ImagesIntent, ImagesViewState
 
     private fun setupRecyclerView() {
         with(b.rvImages) {
-            layoutManager = GridLayoutManager(this@ImagesListFragment.context, 2)
+            layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
             adapter = this@ImagesListFragment.adapter
+            setItemViewCacheSize(30)
         }
     }
 

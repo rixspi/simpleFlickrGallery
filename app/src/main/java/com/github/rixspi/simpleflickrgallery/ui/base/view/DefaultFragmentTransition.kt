@@ -1,9 +1,6 @@
 package com.github.rixspi.simpleflickrgallery.ui.base.view
 
-import android.support.transition.ChangeBounds
-import android.support.transition.ChangeImageTransform
-import android.support.transition.ChangeTransform
-import android.support.transition.TransitionSet
+import android.support.transition.*
 
 
 class DefaultFragmentTransition: TransitionSet() {
@@ -12,6 +9,6 @@ class DefaultFragmentTransition: TransitionSet() {
         ordering = ORDERING_TOGETHER
         addTransition(ChangeBounds())
                 .addTransition(ChangeTransform())
-                .addTransition(ChangeImageTransform())
+              //  .addTransition(ChangeImageTransform())
     }
 }

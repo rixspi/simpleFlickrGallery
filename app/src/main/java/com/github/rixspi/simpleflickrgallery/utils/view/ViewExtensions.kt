@@ -28,6 +28,7 @@ fun ImageView.loadImage(url: String?,
             .with(this.context)
             .load(url)
             .diskCacheStrategy(DiskCacheStrategy.ALL)
+            .override(800,800)
             .apply { if (animate.not()) dontAnimate() }
             .apply { placeholderResId?.let { placeholder(it) } }
             .apply { errorResId?.let { error(it) } }

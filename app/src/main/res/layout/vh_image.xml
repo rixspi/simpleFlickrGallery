@@ -13,35 +13,16 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/padding_small">
+        android:layout_margin="1dp">
 
         <ImageView
             android:id="@+id/ivImage"
+            android:layout_margin="1dp"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
             android:contentDescription="@{item.title}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintDimensionRatio="3:2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             app:thumbnailImage="@{item.media.m}" />
-
-        <TextView
-            android:id="@+id/tvTitle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_text_image"
-            android:ellipsize="end"
-            android:gravity="center"
-            android:maxLines="2"
-            android:padding="@dimen/padding_default"
-            android:text="@{item.title}"
-            android:textColor="@color/colorAccent"
-            app:layout_constraintBottom_toBottomOf="@+id/ivImage"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:visibleIfNotEmpty="@{item.title}" />
 
     </android.support.constraint.ConstraintLayout>
 </layout>
