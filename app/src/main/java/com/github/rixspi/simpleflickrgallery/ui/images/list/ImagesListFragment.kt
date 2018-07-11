@@ -3,7 +3,10 @@ package com.github.rixspi.simpleflickrgallery.ui.images.list
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.databinding.DataBindingUtil
+import android.os.Build
 import android.os.Bundle
+import android.support.transition.Explode
+import android.support.transition.Fade
 import android.support.v7.widget.GridLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +19,7 @@ import com.github.rixspi.simpleflickrgallery.di.images.list.ImagesListModule
 import com.github.rixspi.simpleflickrgallery.mvibase.MviView
 import com.github.rixspi.simpleflickrgallery.repository.images.model.Image
 import com.github.rixspi.simpleflickrgallery.ui.base.BaseFragment
+import com.github.rixspi.simpleflickrgallery.ui.base.view.DefaultFragmentTransition
 import com.github.rixspi.simpleflickrgallery.ui.images.details.ImageDetailsFragment
 import com.github.rixspi.simpleflickrgallery.ui.images.list.adapter.ImageClickListener
 import com.github.rixspi.simpleflickrgallery.ui.images.list.adapter.ImageItemType
@@ -37,22 +41,34 @@ class ImagesListFragment : BaseFragment(), MviView<ImagesIntent, ImagesViewState
 
     private lateinit var b: FragmentImagesListBinding
 
+    private fun navigateToDetails(image: Image, view: View? = null) {
+        //TODO pass image details
+        val details = ImageDetailsFragment.newInstance(image.media!!.m, "sh${image.id()}")
+        var transName: String? = null
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+            details.sharedElementEnterTransition = DefaultFragmentTransition()
+            //details.enterTransition = Fade()
+            exitTransition = Explode()
+            //details.exitTransition = Explode()
+            details.sharedElementReturnTransition = DefaultFragmentTransition()
+            transName = view?.transitionName
+        }
+
+        fragmentManager?.beginTransaction()
+                ?.addSharedElement(view, transName)
+                ?.replace(R.id.content, details)
+                ?.addToBackStack(null)
+                ?.commit()
+    }
 
     private val adapter: LastAdapter by lazy {
         LastAdapter(vm.items, BR.item)
                 .map(Image::class.java, ImageItemType(object : ImageClickListener {
-                    override fun imageClicked(item: Image) {
-                        fragmentManager?.beginTransaction()
-                                ?.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
-                                ?.addToBackStack("details")
-                                ?.add(R.id.content, ImageDetailsFragment())
-                                ?.commit()
-                    }
+                    override fun imageClicked(item: Image, view: View?) = navigateToDetails(item, view)
 
                     override fun favClicked(item: Image) {}
 
                 }))
-                .into(b.rvImages)
     }
 
     override fun onCreateView(
@@ -61,7 +77,6 @@ class ImagesListFragment : BaseFragment(), MviView<ImagesIntent, ImagesViewState
             savedInstanceState: Bundle?
     ): View? {
         b = DataBindingUtil.inflate(inflater, R.layout.fragment_images_list, null, false)
-
         return b.root
     }
 
@@ -104,8 +119,8 @@ class ImagesListFragment : BaseFragment(), MviView<ImagesIntent, ImagesViewState
     private fun setupRecyclerView() {
         with(b.rvImages) {
             layoutManager = GridLayoutManager(this@ImagesListFragment.context, 2)
+            adapter = this@ImagesListFragment.adapter
         }
-        adapter
     }
 
     /**

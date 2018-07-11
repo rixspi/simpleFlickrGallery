@@ -5,6 +5,7 @@ import android.os.Bundle
 import com.github.rixspi.simpleflickrgallery.R
 import com.github.rixspi.simpleflickrgallery.databinding.ActivityMainBinding
 import com.github.rixspi.simpleflickrgallery.ui.base.BaseActivity
+import com.github.rixspi.simpleflickrgallery.ui.base.BaseFragment
 import com.github.rixspi.simpleflickrgallery.ui.images.list.ImagesListFragment
 
 
@@ -25,8 +26,8 @@ class MainActivity : BaseActivity() {
     private fun loadImagesFragment() {
         if (supportFragmentManager.findFragmentById(R.id.content) == null)
             supportFragmentManager.beginTransaction()
-                    .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
-                    .replace(R.id.content, ImagesListFragment())
+                    //.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
+                    .add(R.id.content, ImagesListFragment(), "main")
                     .commit()
     }
 }

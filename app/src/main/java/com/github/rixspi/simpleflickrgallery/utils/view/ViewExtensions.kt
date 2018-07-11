@@ -3,6 +3,7 @@ package com.github.rixspi.simpleflickrgallery.utils.view
 import android.support.annotation.DrawableRes
 import android.view.View
 import android.widget.ImageView
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.target.Target
@@ -26,8 +27,8 @@ fun ImageView.loadImage(url: String?,
     else GlideApp
             .with(this.context)
             .load(url)
+            .diskCacheStrategy(DiskCacheStrategy.ALL)
             .apply { if (animate.not()) dontAnimate() }
-            .apply { height?.let { override(Target.SIZE_ORIGINAL, height) } }
             .apply { placeholderResId?.let { placeholder(it) } }
             .apply { errorResId?.let { error(it) } }
             .apply {

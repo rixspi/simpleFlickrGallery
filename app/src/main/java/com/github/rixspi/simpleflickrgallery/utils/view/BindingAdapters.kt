@@ -32,7 +32,7 @@ fun loadImageThumbnail(view: ImageView, imageUrl: String?) {
             .let {
                 view.loadImage(
                         imageUrl,
-                        placeholderResId = R.drawable.drawable_photo_placeholder,
+                        //placeholderResId = R.drawable.drawable_photo_placeholder,
                         additionalTransformations = *arrayOf(CenterCrop(), it))
             }
 }
