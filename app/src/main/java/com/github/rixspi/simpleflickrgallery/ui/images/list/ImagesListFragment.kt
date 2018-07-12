@@ -6,7 +6,6 @@ import android.databinding.DataBindingUtil
 import android.os.Build
 import android.os.Bundle
 import android.support.transition.Explode
-import android.support.transition.Fade
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -16,12 +15,14 @@ import com.github.nitrico.lastadapter.LastAdapter
 import com.github.rixspi.simpleflickrgallery.R
 import com.github.rixspi.simpleflickrgallery.databinding.FragmentImagesListBinding
 import com.github.rixspi.simpleflickrgallery.di.images.list.ImagesListModule
+import com.github.rixspi.simpleflickrgallery.mvibase.MviIntent
 import com.github.rixspi.simpleflickrgallery.mvibase.MviView
+import com.github.rixspi.simpleflickrgallery.mvibase.MviViewModel
+import com.github.rixspi.simpleflickrgallery.mvibase.MviViewState
 import com.github.rixspi.simpleflickrgallery.repository.images.model.Image
 import com.github.rixspi.simpleflickrgallery.ui.base.BaseFragment
 import com.github.rixspi.simpleflickrgallery.ui.base.view.DefaultFragmentTransition
 import com.github.rixspi.simpleflickrgallery.ui.images.details.ImageDetailsFragment
-import com.github.rixspi.simpleflickrgallery.ui.images.list.adapter.ImageClickListener
 import com.github.rixspi.simpleflickrgallery.ui.images.list.adapter.ImageItemType
 import com.github.rixspi.simpleflickrgallery.ui.images.list.mvi.ImagesIntent
 import com.github.rixspi.simpleflickrgallery.ui.images.list.mvi.ImagesViewState
@@ -44,13 +45,11 @@ class ImagesListFragment : BaseFragment(), MviView<ImagesIntent, ImagesViewState
     private fun navigateToDetails(image: Image, view: View? = null) {
         //TODO pass image details
         val details = ImageDetailsFragment.newInstance(image.media!!.m, "sh${image.id()}")
+
         var transName: String? = null
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
             details.sharedElementEnterTransition = DefaultFragmentTransition()
-            //details.enterTransition = Fade()
             exitTransition = Explode()
-            details.exitTransition = Fade()
-           // details.sharedElementReturnTransition = DefaultFragmentTransition()
             transName = view?.transitionName
         }
 
@@ -63,12 +62,12 @@ class ImagesListFragment : BaseFragment(), MviView<ImagesIntent, ImagesViewState
 
     private val adapter: LastAdapter by lazy {
         LastAdapter(vm.items, BR.item)
-                .map(Image::class.java, ImageItemType(object : ImageClickListener {
-                    override fun imageClicked(item: Image, view: View?) = navigateToDetails(item, view)
-
-                    override fun favClicked(item: Image) {}
-
-                }))
+                .map(
+                        Image::class.java,
+                        ImageItemType { image, view ->
+                            navigateToDetails(image, view)
+                        }
+                )
     }
 
     override fun onCreateView(
@@ -96,7 +95,7 @@ class ImagesListFragment : BaseFragment(), MviView<ImagesIntent, ImagesViewState
         super.onResume()
         // conflicting with the initial intent but needed when coming back from the
         // AddEditTask activity to refresh the list.
-        refreshIntentPublisher.onNext(ImagesIntent.RefreshIntent(false))
+        //refreshIntentPublisher.onNext(ImagesIntent.RefreshIntent(false))
     }
 
     private fun dependencyInjection() {
@@ -140,9 +139,6 @@ class ImagesListFragment : BaseFragment(), MviView<ImagesIntent, ImagesViewState
                 .let { registerDisposable(it) }
         // Pass the UI's intents to the ViewModel
         vm.processIntents(intents())
-
-//        disposables.add(
-//                listAdapter.taskClickObservable.subscribe { task -> showTaskDetailsUi(task.id) })
     }
 
     override fun intents(): Observable<ImagesIntent> {
@@ -155,7 +151,6 @@ class ImagesListFragment : BaseFragment(), MviView<ImagesIntent, ImagesViewState
     override fun render(state: ImagesViewState) {
         //render android related views e.g: toasts, snackbar, everything we cannot do from viewmodel
     }
-
 
     /**
      * The initial Intent the [MviView] emit to convey to the [MviViewModel]
