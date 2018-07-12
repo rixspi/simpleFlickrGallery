@@ -8,11 +8,13 @@ import io.reactivex.Single
 interface ImagesRepoInterface {
 
     fun getImages(update: Boolean): Single<List<Image>> {
-        if(update) refreshImages()
+        if (update) refreshImages()
         return getImages()
     }
 
     fun getImages(): Single<List<Image>>
+
+    fun getImageFromCache(imageId: String): Single<Image?>
 
     fun refreshImages()
 

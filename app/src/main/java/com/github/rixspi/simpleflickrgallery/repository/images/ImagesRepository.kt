@@ -6,13 +6,14 @@ import com.github.rixspi.simpleflickrgallery.repository.net.FlickrApi
 import io.reactivex.Observable
 import io.reactivex.Single
 import java.util.*
+import kotlin.NoSuchElementException
 
 
 class ImagesRepository(
         private val flickrApi: FlickrApi) : ImagesRepoInterface {
 
     @VisibleForTesting
-    var cachedTasks: MutableMap<String, Image>? = null
+    var cachedImages: MutableMap<String, Image>? = null
     @VisibleForTesting
     var cacheIsDirty = false
 
@@ -21,17 +22,17 @@ class ImagesRepository(
                 .flatMap { images ->
                     Observable.fromIterable(images.items)
                             .doOnNext { image ->
-                                cachedTasks!![image.id()] = image
+                                cachedImages!![image.id()] = image
                             }.toList()
                 }
                 .doOnSuccess { cacheIsDirty = false }
     }
 
     override fun getImages(): Single<List<Image>> {
-        if (cachedTasks != null && !cacheIsDirty) {
-            return Observable.fromIterable(cachedTasks!!.values).toList()
-        } else if (cachedTasks == null) {
-            cachedTasks = LinkedHashMap()
+        if (cachedImages != null && !cacheIsDirty) {
+            return Observable.fromIterable(cachedImages!!.values).toList()
+        } else if (cachedImages == null) {
+            cachedImages = LinkedHashMap()
         }
         return getAndSaveRemoteImages()
     }
@@ -39,8 +40,12 @@ class ImagesRepository(
     override fun refreshImages() {
         cacheIsDirty = true
         //Clearing because of refreshing nature of flickr feed
-        cachedTasks?.clear()
+        cachedImages?.clear()
     }
+
+    override fun getImageFromCache(imageId: String): Single<Image?> =
+            Single.just(cachedImages?.get(imageId))
+                    .onErrorResumeNext(Single.error(NoSuchElementException()))
 
 
     override fun addImageToFav(): Single<Image> {

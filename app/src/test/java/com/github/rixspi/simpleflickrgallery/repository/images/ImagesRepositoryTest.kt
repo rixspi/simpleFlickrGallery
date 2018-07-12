@@ -50,7 +50,7 @@ class ImagesRepositoryTest : BaseTest() {
         imagesRepository.getImages().subscribe()
         assertFalse(imagesRepository.cacheIsDirty)
 
-        assertEquals(fakeDataGenerator.listOfImages.size, imagesRepository.cachedTasks!!.size)
+        assertEquals(fakeDataGenerator.listOfImages.size, imagesRepository.cachedImages!!.size)
     }
 
     @Test
@@ -73,7 +73,7 @@ class ImagesRepositoryTest : BaseTest() {
         imagesRepository.getImages().subscribe()
         assertFalse(imagesRepository.cacheIsDirty)
 
-        assertTrue(imagesRepository.cachedTasks != null)
+        assertTrue(imagesRepository.cachedImages != null)
         //Then return a list of images without calling api
         imagesRepository.getImages(true).subscribe()
 

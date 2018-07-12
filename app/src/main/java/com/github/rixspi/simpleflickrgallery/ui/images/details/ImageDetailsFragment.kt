@@ -56,11 +56,6 @@ class ImageDetailsFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         dependencyInjection()
-
-        vm.getImageFromRepo(arguments?.getString(EXTRA_IMAGE_ID)!!) {
-            loadImageThumbnail(b.ivImage, it.url)
-            b.ivImage.setImageWhenDownloaded(it.urlToBiggerImage)
-        }
     }
 
 
