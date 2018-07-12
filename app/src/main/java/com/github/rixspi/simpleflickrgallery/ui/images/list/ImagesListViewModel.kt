@@ -2,7 +2,7 @@ package com.github.rixspi.simpleflickrgallery.ui.images.list
 
 import android.databinding.ObservableArrayList
 import android.databinding.ObservableBoolean
-import com.github.rixspi.simpleflickrgallery.mvibase.MviViewModel
+import com.github.rixspi.simpleflickrgallery.mvibase.*
 import com.github.rixspi.simpleflickrgallery.repository.images.model.Image
 import com.github.rixspi.simpleflickrgallery.ui.base.BaseViewModel
 import com.github.rixspi.simpleflickrgallery.ui.images.list.mvi.*
@@ -92,8 +92,7 @@ class ImagesListViewModel @Inject constructor(private val actionProcessor: Image
             items.addAll(state.images)
         }
     }
-
-
+    
     companion object {
         /**
          * The Reducer is where [MviViewState], that the [MviView] will use to
