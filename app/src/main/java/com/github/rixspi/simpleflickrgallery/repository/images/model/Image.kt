@@ -2,6 +2,7 @@ package com.github.rixspi.simpleflickrgallery.repository.images.model
 
 import com.github.rixspi.simpleflickrgallery.repository.base.RepositoryModel
 import com.google.gson.annotations.SerializedName
+import java.util.*
 
 
 data class Image(
@@ -16,7 +17,12 @@ data class Image(
         val authorId: String? = null,
         val tags: String? = null
 ) : RepositoryModel {
-    fun id(): String? = authorId + media?.m
+    fun id(): String =
+            if (authorId.isNullOrBlank() || media?.m.isNullOrBlank()) {
+                UUID.randomUUID().toString()
+            } else {
+                authorId + media!!.m
+            }
 
     fun getBiggerUrl(): String? = media?.m?.let {
         if (it.length > 5) it.dropLast(5).plus("b.jpg")

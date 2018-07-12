@@ -21,7 +21,7 @@ class ImagesRepository(
                 .flatMap { images ->
                     Observable.fromIterable(images.items)
                             .doOnNext { image ->
-                                cachedTasks!![image.id()!!] = image
+                                cachedTasks!![image.id()] = image
                             }.toList()
                 }
                 .doOnSuccess { cacheIsDirty = false }
