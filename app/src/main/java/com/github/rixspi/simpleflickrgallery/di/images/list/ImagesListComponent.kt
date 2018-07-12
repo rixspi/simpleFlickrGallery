@@ -1,11 +1,11 @@
 package com.github.rixspi.simpleflickrgallery.di.images.list
 
-import com.github.rixspi.simpleflickrgallery.di.base.scope.ActivityScope
+import com.github.rixspi.simpleflickrgallery.di.base.scope.FragmentScope
 import com.github.rixspi.simpleflickrgallery.ui.images.list.ImagesListFragment
 import dagger.Subcomponent
 
 
-@ActivityScope
+@FragmentScope
 @Subcomponent(modules = [
     (ImagesListModule::class)
 ])

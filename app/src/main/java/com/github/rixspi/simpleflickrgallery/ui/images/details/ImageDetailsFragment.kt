@@ -1,5 +1,7 @@
 package com.github.rixspi.simpleflickrgallery.ui.images.details
 
+import android.arch.lifecycle.ViewModelProvider
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.databinding.DataBindingUtil
 import android.os.Bundle
@@ -10,12 +12,19 @@ import android.view.View
 import android.view.ViewGroup
 import com.github.rixspi.simpleflickrgallery.R
 import com.github.rixspi.simpleflickrgallery.databinding.FragmentImagesDetailsBinding
+import com.github.rixspi.simpleflickrgallery.di.images.details.ImageDetailsModule
 import com.github.rixspi.simpleflickrgallery.ui.base.BaseFragment
 import com.github.rixspi.simpleflickrgallery.utils.view.loadImageThumbnail
 import com.github.rixspi.simpleflickrgallery.utils.view.setImageWhenDownloaded
+import javax.inject.Inject
 
 
 class ImageDetailsFragment : BaseFragment() {
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    lateinit var vm: ImageDetailsViewModel
+
     private lateinit var b: FragmentImagesDetailsBinding
 
     override fun onCreateView(
@@ -23,14 +32,15 @@ class ImageDetailsFragment : BaseFragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        b = DataBindingUtil.inflate(inflater, R.layout.fragment_images_details, null, false)
+        b = DataBindingUtil.inflate(
+                inflater,
+                R.layout.fragment_images_details,
+                null,
+                false
+        )
+
         ViewCompat.setTransitionName(b.ivImage, arguments?.getString(EXTRA_IMAGE_TRANS_NAME))
         return b.root
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        // postponeEnterTransition()
     }
 
     override fun onAttach(context: Context?) {
@@ -45,21 +55,28 @@ class ImageDetailsFragment : BaseFragment() {
     ) {
         super.onViewCreated(view, savedInstanceState)
 
-        val biggerSizeUrl = arguments?.getString(EXTRA_IMAGE)?.dropLast(5).plus("b.jpg")
-        loadImageThumbnail(b.ivImage, arguments?.getString(EXTRA_IMAGE))
-        b.ivImage.setImageWhenDownloaded(biggerSizeUrl)
+        dependencyInjection()
+
+        vm.getImageFromRepo(arguments?.getString(EXTRA_IMAGE_ID)!!) {
+            loadImageThumbnail(b.ivImage, it.url)
+            b.ivImage.setImageWhenDownloaded(it.urlToBiggerImage)
+        }
+    }
+
+
+    private fun dependencyInjection() {
+        appComponent
+                .plus(ImageDetailsModule(this))
+                .inject(this)
+
+        vm = ViewModelProviders.of(this, viewModelFactory).get(ImageDetailsViewModel::class.java)
     }
 
     companion object {
-        const val EXTRA_IMAGE = "extraimage"
-        const val EXTRA_IMAGE_TRANS_NAME = "extraimagetransname"
-        fun newInstance(url: String, transName: String? = null): ImageDetailsFragment {
-            return ImageDetailsFragment().apply {
-                arguments = Bundle()
-                        .apply { putString(EXTRA_IMAGE, url) }
-                        .apply { putString(EXTRA_IMAGE_TRANS_NAME, transName) }
-            }
-        }
+        const val EXTRA_IMAGE_ID = "img_id_2412437"
+        const val EXTRA_IMAGE_TRANS_NAME = "transition_name_22314"
+
+        fun newInstance() = ImageDetailsFragment()
     }
 
 }

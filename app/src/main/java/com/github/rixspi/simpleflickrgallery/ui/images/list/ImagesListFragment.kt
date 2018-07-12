@@ -43,8 +43,7 @@ class ImagesListFragment : BaseFragment(), MviView<ImagesIntent, ImagesViewState
     private lateinit var b: FragmentImagesListBinding
 
     private fun navigateToDetails(image: UiImage, view: View? = null) {
-        //TODO pass image details
-        val details = ImageDetailsFragment.newInstance(image.url, "sh${image.id}")
+        val details = ImageDetailsFragment.newInstance()
 
         var transName: String? = null
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
@@ -53,8 +52,15 @@ class ImagesListFragment : BaseFragment(), MviView<ImagesIntent, ImagesViewState
             transName = view?.transitionName
         }
 
+        details.arguments = Bundle().apply {
+            putString(ImageDetailsFragment.EXTRA_IMAGE_ID, image.id)
+            transName?.let {
+                putString(ImageDetailsFragment.EXTRA_IMAGE_TRANS_NAME, it)
+            }
+        }
+
         fragmentManager?.beginTransaction()
-                ?.addSharedElement(view, transName)
+                ?.apply { transName.let { addSharedElement(view, it) } }
                 ?.replace(R.id.content, details)
                 ?.addToBackStack(null)
                 ?.commit()
