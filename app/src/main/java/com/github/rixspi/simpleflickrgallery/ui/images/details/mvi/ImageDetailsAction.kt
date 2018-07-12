@@ -4,5 +4,5 @@ import com.github.rixspi.simpleflickrgallery.mvibase.MviAction
 
 
 sealed class ImageDetailsAction : MviAction {
-    data class LoadImageAction(val id: String) : ImageDetailsAction()
+    data class LoadImageAction(val id: String?) : ImageDetailsAction()
 }

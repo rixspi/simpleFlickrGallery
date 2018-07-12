@@ -54,6 +54,7 @@ class ImagesListFragment : BaseFragment(), MviView<ImagesIntent, ImagesViewState
 
         details.arguments = Bundle().apply {
             putString(ImageDetailsFragment.EXTRA_IMAGE_ID, image.id)
+            putString(ImageDetailsFragment.EXTRA_IMAGE_URL, image.url)
             transName?.let {
                 putString(ImageDetailsFragment.EXTRA_IMAGE_TRANS_NAME, it)
             }

@@ -43,9 +43,13 @@ class ImagesRepository(
         cachedImages?.clear()
     }
 
-    override fun getImageFromCache(imageId: String): Single<Image?> =
-            Single.just(cachedImages?.get(imageId))
-                    .onErrorResumeNext(Single.error(NoSuchElementException()))
+    override fun getImageFromCache(imageId: String): Single<Image> {
+        return cachedImages?.get(imageId)?.let {
+            Single.just(it)
+        } ?: run {
+            Single.error<Image>(NoSuchElementException("Image wasn't found in the cache!"))
+        }
+    }
 
 
     override fun addImageToFav(): Single<Image> {

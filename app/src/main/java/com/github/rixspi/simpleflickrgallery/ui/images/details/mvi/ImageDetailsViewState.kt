@@ -9,7 +9,7 @@ data class ImageDetailsViewState(
         val image: UiImage?,
         val error: Throwable?
 ) : MviViewState {
-    
+
     companion object {
         fun idle(): ImageDetailsViewState {
             return ImageDetailsViewState(

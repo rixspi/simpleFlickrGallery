@@ -14,7 +14,7 @@ interface ImagesRepoInterface {
 
     fun getImages(): Single<List<Image>>
 
-    fun getImageFromCache(imageId: String): Single<Image?>
+    fun getImageFromCache(imageId: String): Single<Image>
 
     fun refreshImages()
 

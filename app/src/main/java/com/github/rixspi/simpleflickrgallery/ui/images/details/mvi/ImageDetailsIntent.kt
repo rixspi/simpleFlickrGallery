@@ -4,5 +4,5 @@ import com.github.rixspi.simpleflickrgallery.mvibase.MviIntent
 
 
 sealed class ImageDetailsIntent: MviIntent {
-    data class InitialIntent(val id: String): ImageDetailsIntent()
+    data class InitialIntent(val id: String?): ImageDetailsIntent()
 }
