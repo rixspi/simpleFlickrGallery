@@ -22,7 +22,6 @@ fun ImageView.loadImage(url: String?,
                         @DrawableRes placeholderResId: Int? = null,
                         @DrawableRes errorResId: Int? = null,
                         vararg additionalTransformations: BitmapTransformation,
-                        height: Int? = null,
                         animate: Boolean = true) {
     if (url.isNullOrEmpty())
         errorResId?.let { setImageResource(it) }

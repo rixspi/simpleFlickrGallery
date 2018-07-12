@@ -4,21 +4,67 @@
     xmlns:tools="http://schemas.android.com/tools">
 
 
-    <android.support.constraint.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:animateLayoutChanges="true"
-        android:background="@color/colorPrimaryDark"
-        tools:context=".ui.main.MainActivity">
+    <data>
 
-        <ImageView
-            android:id="@+id/ivImage"
+        <variable
+            name="model"
+            type="com.github.rixspi.simpleflickrgallery.ui.images.details.ImageDetailsViewModel" />
+
+    </data>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true">
+
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:animateLayoutChanges="true"
+            android:background="@color/colorPrimaryDark"
+            tools:context=".ui.main.MainActivity">
 
-    </android.support.constraint.ConstraintLayout>
+            <ImageView
+                android:id="@+id/ivImage"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/greyTransparent"
+                android:text="@{model.image.name}"
+                android:textColor="@color/blueGrey"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/ivImage"
+                tools:text="Image name" />
+
+            <TextView
+                android:id="@+id/tvAuthor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/greyTransparent"
+                android:text="@{model.image.author}"
+                android:textColor="@color/blueGrey"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/tvTitle"
+                tools:text="Image author" />
+
+            <ProgressBar
+                visibleIf="@{model.loading}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
 </layout>

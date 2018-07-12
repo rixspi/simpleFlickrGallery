@@ -3,10 +3,6 @@ package com.github.rixspi.simpleflickrgallery.utils.view
 import android.databinding.BindingAdapter
 import android.view.View
 import android.widget.ImageView
-import com.bumptech.glide.load.resource.bitmap.CenterCrop
-import com.bumptech.glide.load.resource.bitmap.CenterInside
-import com.bumptech.glide.load.resource.bitmap.FitCenter
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.github.rixspi.simpleflickrgallery.R
 
 
@@ -30,12 +26,10 @@ fun loadImageThumbnail(view: ImageView, imageUrl: String?) {
     view.context
             .resources
             .getDimensionPixelSize(R.dimen.padding_default)
-           // .let { RoundedCorners(it) }
             .let {
                 view.loadImage(
                         imageUrl,
                         placeholderResId = R.drawable.ic_launcher_background
-                        //additionalTransformations = *arrayOf(CenterInside())
-                        )
+                )
             }
 }
