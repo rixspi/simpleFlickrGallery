@@ -6,7 +6,7 @@
 
         <variable
             name="item"
-            type="com.github.rixspi.simpleflickrgallery.repository.images.model.Image" />
+            type="com.github.rixspi.simpleflickrgallery.ui.images.model.UiImage" />
     </data>
 
 
@@ -17,12 +17,12 @@
 
         <ImageView
             android:id="@+id/ivImage"
-            android:layout_margin="1dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_margin="1dp"
             android:adjustViewBounds="true"
-            android:contentDescription="@{item.title}"
-            app:thumbnailImage="@{item.media.m}" />
+            android:contentDescription="@{item.name}"
+            app:thumbnailImage="@{item.url}" />
 
     </android.support.constraint.ConstraintLayout>
 </layout>

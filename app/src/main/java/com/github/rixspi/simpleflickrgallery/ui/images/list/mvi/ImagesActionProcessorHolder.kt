@@ -1,6 +1,7 @@
 package com.github.rixspi.simpleflickrgallery.ui.images.list.mvi
 
 import com.github.rixspi.simpleflickrgallery.repository.images.ImagesRepoInterface
+import com.github.rixspi.simpleflickrgallery.ui.images.mapper.RepoImageMapper
 import io.reactivex.Observable
 import io.reactivex.ObservableTransformer
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -9,7 +10,8 @@ import javax.inject.Inject
 
 
 class ImagesActionProcessorHolder @Inject constructor(
-        private val imagesRepo: ImagesRepoInterface
+        private val imagesRepo: ImagesRepoInterface,
+        private val imageMapper: RepoImageMapper
 ) {
     internal var actionProcessor =
             ObservableTransformer<ImagesAction, ImagesResult> { actions ->
@@ -37,14 +39,13 @@ class ImagesActionProcessorHolder @Inject constructor(
 
     private val loadTasksProcessor =
             ObservableTransformer<ImagesAction.LoadImagesAction, ImagesResult.LoadImagesResult> { actions ->
-                actions.flatMap {
-                    action ->
+                actions.flatMap { action ->
                     imagesRepo.getImages(action.update)
                             // Transform the Single to an Observable to allow emission of multiple
                             // events down the stream (e.g. the InFlight event)
                             .toObservable()
                             // Wrap returned data into an immutable object
-                            .map { ImagesResult.LoadImagesResult.Success(it) }
+                            .map { ImagesResult.LoadImagesResult.Success(imageMapper.mapToEntity(it)) }
                             .cast(ImagesResult.LoadImagesResult::class.java)
                             // Wrap any error into an immutable object and pass it down the stream
                             // without crashing.
@@ -65,7 +66,7 @@ class ImagesActionProcessorHolder @Inject constructor(
                 actions.flatMap {
                     imagesRepo.addImageToFav()
                             .toObservable()
-                            .map { ImagesResult.AddImageToFavResult.Success(it) }
+                            .map { ImagesResult.AddImageToFavResult.Success(imageMapper.mapToEntity(it)) }
                             .cast(ImagesResult.AddImageToFavResult::class.java)
                             .onErrorReturn(ImagesResult.AddImageToFavResult::Failure)
                             .subscribeOn(Schedulers.io())

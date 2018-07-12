@@ -1,5 +1,6 @@
 package com.github.rixspi.simpleflickrgallery.repository.images.model
 
+import com.github.rixspi.simpleflickrgallery.repository.base.RepositoryModel
 import com.google.gson.annotations.SerializedName
 
 
@@ -14,10 +15,15 @@ data class Image(
         @SerializedName("author_id")
         val authorId: String? = null,
         val tags: String? = null
-) {
-    fun id(): String = authorId + media?.m
+) : RepositoryModel {
+    fun id(): String? = authorId + media?.m
+
+    fun getBiggerUrl(): String? = media?.m?.let {
+        if (it.length > 5) it.dropLast(5).plus("b.jpg")
+        else it
+    }
 }
 
 data class Media(
-        val m: String
+        val m: String? = null
 )

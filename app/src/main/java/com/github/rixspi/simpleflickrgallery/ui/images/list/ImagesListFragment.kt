@@ -19,13 +19,13 @@ import com.github.rixspi.simpleflickrgallery.mvibase.MviIntent
 import com.github.rixspi.simpleflickrgallery.mvibase.MviView
 import com.github.rixspi.simpleflickrgallery.mvibase.MviViewModel
 import com.github.rixspi.simpleflickrgallery.mvibase.MviViewState
-import com.github.rixspi.simpleflickrgallery.repository.images.model.Image
 import com.github.rixspi.simpleflickrgallery.ui.base.BaseFragment
 import com.github.rixspi.simpleflickrgallery.ui.base.view.DefaultFragmentTransition
 import com.github.rixspi.simpleflickrgallery.ui.images.details.ImageDetailsFragment
 import com.github.rixspi.simpleflickrgallery.ui.images.list.adapter.ImageItemType
 import com.github.rixspi.simpleflickrgallery.ui.images.list.mvi.ImagesIntent
 import com.github.rixspi.simpleflickrgallery.ui.images.list.mvi.ImagesViewState
+import com.github.rixspi.simpleflickrgallery.ui.images.model.UiImage
 import com.jakewharton.rxbinding2.support.v4.widget.RxSwipeRefreshLayout
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
@@ -42,9 +42,9 @@ class ImagesListFragment : BaseFragment(), MviView<ImagesIntent, ImagesViewState
 
     private lateinit var b: FragmentImagesListBinding
 
-    private fun navigateToDetails(image: Image, view: View? = null) {
+    private fun navigateToDetails(image: UiImage, view: View? = null) {
         //TODO pass image details
-        val details = ImageDetailsFragment.newInstance(image.media!!.m, "sh${image.id()}")
+        val details = ImageDetailsFragment.newInstance(image.url, "sh${image.id}")
 
         var transName: String? = null
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
@@ -63,7 +63,7 @@ class ImagesListFragment : BaseFragment(), MviView<ImagesIntent, ImagesViewState
     private val adapter: LastAdapter by lazy {
         LastAdapter(vm.items, BR.item)
                 .map(
-                        Image::class.java,
+                        UiImage::class.java,
                         ImageItemType { image, view ->
                             navigateToDetails(image, view)
                         }

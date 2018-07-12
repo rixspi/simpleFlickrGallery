@@ -3,9 +3,9 @@ package com.github.rixspi.simpleflickrgallery.ui.images.list
 import android.databinding.ObservableArrayList
 import android.databinding.ObservableBoolean
 import com.github.rixspi.simpleflickrgallery.mvibase.*
-import com.github.rixspi.simpleflickrgallery.repository.images.model.Image
 import com.github.rixspi.simpleflickrgallery.ui.base.BaseViewModel
 import com.github.rixspi.simpleflickrgallery.ui.images.list.mvi.*
+import com.github.rixspi.simpleflickrgallery.ui.images.model.UiImage
 import com.github.rixspi.simpleflickrgallery.utils.notOfType
 import io.reactivex.Observable
 import io.reactivex.ObservableTransformer
@@ -14,13 +14,13 @@ import io.reactivex.subjects.PublishSubject
 import javax.inject.Inject
 
 
-class ImagesListViewModel @Inject constructor(private val actionProcessor: ImagesActionProcessorHolder) :
-        BaseViewModel(),
-        MviViewModel<ImagesIntent, ImagesViewState> {
+class ImagesListViewModel @Inject constructor(
+        private val actionProcessor: ImagesActionProcessorHolder
+) : BaseViewModel(), MviViewModel<ImagesIntent, ImagesViewState> {
 
     val loading = ObservableBoolean()
 
-    val items = ObservableArrayList<Image>()
+    val items = ObservableArrayList<UiImage>()
 
     /**
      * Proxy subject used to keep the stream alive even after the UI gets recycled.
@@ -92,7 +92,7 @@ class ImagesListViewModel @Inject constructor(private val actionProcessor: Image
             items.addAll(state.images)
         }
     }
-    
+
     companion object {
         /**
          * The Reducer is where [MviViewState], that the [MviView] will use to

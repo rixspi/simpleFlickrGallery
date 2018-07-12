@@ -6,14 +6,14 @@ import com.github.nitrico.lastadapter.Holder
 import com.github.nitrico.lastadapter.ItemType
 import com.github.rixspi.simpleflickrgallery.R
 import com.github.rixspi.simpleflickrgallery.databinding.VhImageBinding
-import com.github.rixspi.simpleflickrgallery.repository.images.model.Image
+import com.github.rixspi.simpleflickrgallery.ui.images.model.UiImage
 
 
-class ImageItemType(private val clickListener: ImageClickListener<Image, View>) : ItemType<VhImageBinding>(R.layout.vh_image) {
+class ImageItemType(private val clickListener: ImageClickListener<UiImage, View>) : ItemType<VhImageBinding>(R.layout.vh_image) {
 
     override fun onCreate(holder: Holder<VhImageBinding>) {
-        with(holder){
-            itemView.setOnClickListener{
+        with(holder) {
+            itemView.setOnClickListener {
                 clickListener
             }
         }
@@ -27,7 +27,7 @@ class ImageItemType(private val clickListener: ImageClickListener<Image, View>) 
 
     override fun onBind(holder: Holder<VhImageBinding>) {
         with(holder) {
-            val transitionName = itemView.context.getString(R.string.image_transition_name, binding.item?.id())
+            val transitionName = itemView.context.getString(R.string.image_transition_name, binding.item?.id)
             ViewCompat.setTransitionName(binding.ivImage, transitionName)
         }
 

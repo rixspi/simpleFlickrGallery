@@ -8,7 +8,8 @@ import io.reactivex.Single
 import java.util.*
 
 
-class ImagesRepository(private val flickrApi: FlickrApi) : ImagesRepoInterface {
+class ImagesRepository(
+        private val flickrApi: FlickrApi) : ImagesRepoInterface {
 
     @VisibleForTesting
     var cachedTasks: MutableMap<String, Image>? = null
@@ -20,7 +21,7 @@ class ImagesRepository(private val flickrApi: FlickrApi) : ImagesRepoInterface {
                 .flatMap { images ->
                     Observable.fromIterable(images.items)
                             .doOnNext { image ->
-                                cachedTasks!![image.id()] = image
+                                cachedTasks!![image.id()!!] = image
                             }.toList()
                 }
                 .doOnSuccess { cacheIsDirty = false }
