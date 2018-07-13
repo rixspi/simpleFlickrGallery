@@ -9,6 +9,8 @@ import javax.inject.Inject
 class FakeDataGenerator @Inject constructor() {
     val listOfImages = (0..10).map {
         generateImage(
+                author = "author$it",
+                authorId = "authorId$it",
                 title = "title$it",
                 description = "desc$it",
                 link = "link$it",
@@ -16,12 +18,16 @@ class FakeDataGenerator @Inject constructor() {
     }
 
     fun generateImage(
+            author: String? = "",
+            authorId: String? = "",
             title: String? = "",
             description: String? = "",
             link: String? = "",
             media: Media? = Media("")) =
 
             Image(
+                    author = author,
+                    authorId = authorId,
                     title = title,
                     description = description,
                     link = link,

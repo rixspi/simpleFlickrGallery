@@ -1,6 +1,5 @@
 package com.github.rixspi.simpleflickrgallery.ui.images.list
 
-import android.media.Image
 import com.github.rixspi.simpleflickrgallery.BaseTest
 import com.github.rixspi.simpleflickrgallery.FakeDataGenerator
 import com.github.rixspi.simpleflickrgallery.di.base.DaggerTestAppComponent
@@ -8,6 +7,7 @@ import com.github.rixspi.simpleflickrgallery.repository.images.ImagesRepoInterfa
 import com.github.rixspi.simpleflickrgallery.ui.images.list.mvi.ImagesActionProcessorHolder
 import com.github.rixspi.simpleflickrgallery.ui.images.list.mvi.ImagesIntent
 import com.github.rixspi.simpleflickrgallery.ui.images.list.mvi.ImagesViewState
+import com.github.rixspi.simpleflickrgallery.ui.images.mapper.RepoImageMapper
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.observers.TestObserver
@@ -23,10 +23,11 @@ class ImagesListViewModelTest : BaseTest() {
     lateinit var imagesRepository: ImagesRepoInterface
     @Inject
     lateinit var fakeDataGenerator: FakeDataGenerator
+    @Inject
+    lateinit var imagesMapper: RepoImageMapper
 
     private lateinit var viewModel: ImagesListViewModel
     private lateinit var testObserver: TestObserver<ImagesViewState>
-    private lateinit var images: List<Image>
 
     @Before
     fun setUp() {
@@ -35,7 +36,7 @@ class ImagesListViewModelTest : BaseTest() {
                 .inject(this)
 
         viewModel = ImagesListViewModel(
-                ImagesActionProcessorHolder(imagesRepository)
+                ImagesActionProcessorHolder(imagesRepository, imagesMapper)
         )
 
         testObserver = viewModel
