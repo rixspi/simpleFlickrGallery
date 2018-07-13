@@ -17,6 +17,4 @@ interface ImagesRepoInterface {
     fun getImageFromCache(imageId: String): Single<Image>
 
     fun refreshImages()
-
-    fun addImageToFav(): Single<Image>
 }

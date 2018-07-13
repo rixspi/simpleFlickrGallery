@@ -10,10 +10,4 @@ sealed class ImagesResult : MviResult {
         data class Failure(val error: Throwable) : LoadImagesResult()
         object InProgress : LoadImagesResult()
     }
-
-    sealed class AddImageToFavResult : ImagesResult() {
-        data class Success(val image: UiImage) : AddImageToFavResult()
-        data class Failure(val error: Throwable) : AddImageToFavResult()
-        object InProgress : AddImageToFavResult()
-    }
 }

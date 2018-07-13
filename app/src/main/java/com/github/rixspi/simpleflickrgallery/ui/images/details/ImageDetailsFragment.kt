@@ -135,6 +135,13 @@ class ImageDetailsFragment : BaseFragment(), MviView<ImageDetailsIntent, ImageDe
     private fun initialIntent(): Observable<ImageDetailsIntent> =
             Observable.just(ImageDetailsIntent.InitialIntent(arguments?.getString(EXTRA_IMAGE_ID)))
 
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        clearDisposables()
+    }
+    
     companion object {
         const val EXTRA_IMAGE_ID = "img_id_22314"
         const val EXTRA_IMAGE_TRANS_NAME = "transition_name_22314"

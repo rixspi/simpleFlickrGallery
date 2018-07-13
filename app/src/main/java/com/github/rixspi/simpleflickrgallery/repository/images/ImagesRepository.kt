@@ -51,9 +51,4 @@ class ImagesRepository(
         }
     }
 
-
-    override fun addImageToFav(): Single<Image> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
 }

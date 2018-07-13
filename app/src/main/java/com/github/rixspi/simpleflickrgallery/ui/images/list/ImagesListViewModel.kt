@@ -54,7 +54,7 @@ class ImagesListViewModel @Inject constructor(
     private fun compose(): Observable<ImagesViewState> {
         return intentsSubject
                 .compose(intentFilter)
-                .map(this::actionFromIntent)
+                .map<ImagesAction>(this::actionFromIntent)
                 .compose(actionProcessor.actionProcessor)
                 // Cache each state and pass it to the reducer to create a new state from
                 // the previous cached one and the latest Result emitted from the action processor.
@@ -113,9 +113,6 @@ class ImagesListViewModel @Inject constructor(
                     is ImagesResult.LoadImagesResult.Failure -> previousState.copy(isLoading = false, error = result.error)
                     is ImagesResult.LoadImagesResult.InProgress -> previousState.copy(isLoading = true)
                 }
-                is ImagesResult.AddImageToFavResult.Success -> TODO()
-                is ImagesResult.AddImageToFavResult.Failure -> TODO()
-                ImagesResult.AddImageToFavResult.InProgress -> TODO()
             }
 
         }

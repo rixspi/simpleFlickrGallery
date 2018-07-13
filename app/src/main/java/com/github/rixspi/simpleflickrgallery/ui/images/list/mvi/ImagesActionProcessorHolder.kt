@@ -16,18 +16,13 @@ class ImagesActionProcessorHolder @Inject constructor(
     internal var actionProcessor =
             ObservableTransformer<ImagesAction, ImagesResult> { actions ->
                 actions.publish { shared ->
-                    Observable.merge(
-                            // Match LoadTasksAction to loadTasksProcessor
-                            shared.ofType(ImagesAction.LoadImagesAction::class.java).compose(loadTasksProcessor),
+                    shared.ofType(ImagesAction.LoadImagesAction::class.java).compose(loadTasksProcessor)
+                            .cast(ImagesResult::class.java)
                             // Match ActivateTaskAction to populateTaskProcessor
-                            shared.ofType(ImagesAction.AddToFavAction::class.java)
-                                    .compose(addImagesToFavProcessor))
                             .mergeWith(
                                     // Error for not implemented actions
                                     shared.filter { v ->
                                         v !is ImagesAction.LoadImagesAction
-                                                && v !is ImagesAction.AddToFavAction
-
                                     }.flatMap { w ->
                                         Observable.error<ImagesResult>(
                                                 IllegalArgumentException("Unknown Action type: $w"))
@@ -58,20 +53,6 @@ class ImagesActionProcessorHolder @Inject constructor(
                             // We emit it after observing on the UI thread to allow the event to be emitted
                             // on the current frame and avoid jank.
                             .startWith(ImagesResult.LoadImagesResult.InProgress)
-                }
-            }
-
-    private val addImagesToFavProcessor =
-            ObservableTransformer<ImagesAction.AddToFavAction, ImagesResult.AddImageToFavResult> { actions ->
-                actions.flatMap {
-                    imagesRepo.addImageToFav()
-                            .toObservable()
-                            .map { ImagesResult.AddImageToFavResult.Success(imageMapper.mapToEntity(it)) }
-                            .cast(ImagesResult.AddImageToFavResult::class.java)
-                            .onErrorReturn(ImagesResult.AddImageToFavResult::Failure)
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .startWith(ImagesResult.AddImageToFavResult.InProgress)
                 }
             }
 }

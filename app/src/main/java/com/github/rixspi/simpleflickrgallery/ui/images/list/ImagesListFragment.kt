@@ -42,31 +42,6 @@ class ImagesListFragment : BaseFragment(), MviView<ImagesIntent, ImagesViewState
 
     private lateinit var b: FragmentImagesListBinding
 
-    private fun navigateToDetails(image: UiImage, view: View? = null) {
-        val details = ImageDetailsFragment.newInstance()
-
-        var transName: String? = null
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-            details.sharedElementEnterTransition = DefaultFragmentTransition()
-            exitTransition = Explode()
-            transName = view?.transitionName
-        }
-
-        details.arguments = Bundle().apply {
-            putString(ImageDetailsFragment.EXTRA_IMAGE_ID, image.id)
-            putString(ImageDetailsFragment.EXTRA_IMAGE_URL, image.url)
-            transName?.let {
-                putString(ImageDetailsFragment.EXTRA_IMAGE_TRANS_NAME, it)
-            }
-        }
-
-        fragmentManager?.beginTransaction()
-                ?.apply { transName.let { addSharedElement(view, it) } }
-                ?.replace(R.id.content, details)
-                ?.addToBackStack(null)
-                ?.commit()
-    }
-
     private val adapter: LastAdapter by lazy {
         LastAdapter(vm.items, BR.item)
                 .map(
@@ -96,13 +71,6 @@ class ImagesListFragment : BaseFragment(), MviView<ImagesIntent, ImagesViewState
         dependencyInjection()
         initializeBinding()
         setupRecyclerView()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        // conflicting with the initial intent but needed when coming back from the
-        // AddEditTask activity to refresh the list.
-        //refreshIntentPublisher.onNext(ImagesIntent.RefreshIntent(false))
     }
 
     private fun dependencyInjection() {
@@ -177,5 +145,30 @@ class ImagesListFragment : BaseFragment(), MviView<ImagesIntent, ImagesViewState
         super.onDestroy()
 
         clearDisposables()
+    }
+
+    private fun navigateToDetails(image: UiImage, view: View? = null) {
+        val details = ImageDetailsFragment.newInstance()
+
+        var transName: String? = null
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+            details.sharedElementEnterTransition = DefaultFragmentTransition()
+            exitTransition = Explode()
+            transName = view?.transitionName
+        }
+
+        details.arguments = Bundle().apply {
+            putString(ImageDetailsFragment.EXTRA_IMAGE_ID, image.id)
+            putString(ImageDetailsFragment.EXTRA_IMAGE_URL, image.url)
+            transName?.let {
+                putString(ImageDetailsFragment.EXTRA_IMAGE_TRANS_NAME, it)
+            }
+        }
+
+        fragmentManager?.beginTransaction()
+                ?.apply { transName.let { addSharedElement(view, it) } }
+                ?.replace(R.id.content, details)
+                ?.addToBackStack(null)
+                ?.commit()
     }
 }
