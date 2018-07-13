@@ -51,11 +51,14 @@ class ImagesListViewModelTest : BaseTest() {
         viewModel.processIntents(Observable.just(ImagesIntent.InitialIntent))
 
         testObserver.assertValueAt(1, ImagesViewState::isLoading)
-        testObserver.assertValueAt(2) { imagesViewState -> !imagesViewState.isLoading }
+        testObserver.assertValueAt(2) { imagesViewState ->
+            !imagesViewState.isLoading &&
+                    imagesViewState.images[3].id == fakeDataGenerator.listOfImages[3].id()
+        }
     }
 
     @Test
-    fun `error while loading tasks shows error`() {
+    fun `error changes view state to error`() {
         _when(imagesRepository.getImages(Mockito.anyBoolean())).thenReturn(Single.error(Exception()))
 
         viewModel.processIntents(Observable.just(ImagesIntent.InitialIntent))
