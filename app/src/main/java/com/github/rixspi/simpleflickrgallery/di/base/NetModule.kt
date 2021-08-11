@@ -28,7 +28,6 @@ class NetModule {
 
     @Provides
     @Singleton
-    //fun provideOkHttpClient(appSettings: AppSettings): OkHttpClient {
     fun provideOkHttpClient(): OkHttpClient {
         val builder = OkHttpClient.Builder()
 
@@ -44,7 +43,6 @@ class NetModule {
 
             if (!token.isNullOrEmpty()) {
                 val request = original.newBuilder()
-                        //.header(HEADER_AUTHORIZATION, token)
                         .method(original.method(), original.body())
                         .build()
 
